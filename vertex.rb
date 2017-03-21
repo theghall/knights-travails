@@ -13,6 +13,11 @@ module Vertex
 
       @end_points = []
     end
+
+    def ==(pos)
+      x_pos == pos[0] && y_pos == pos[1]
+    end
+
   end
 
   class EndPoint
