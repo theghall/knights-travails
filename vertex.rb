@@ -4,29 +4,29 @@
 #
 module Vertex
   class Vertex
-    attr_accessor :x_pos, :y_pos, :end_points
+    attr_accessor :row, :col, :end_points
 
-    def initialize(x_pos, y_pos)
-      @x_pos = x_pos
+    def initialize(row, col)
+      @row = row
 
-      @y_pos = y_pos
+      @col = col
 
       @end_points = []
     end
 
     def ==(pos)
-      x_pos == pos[0] && y_pos == pos[1]
+      row == pos[0] && col == pos[1]
     end
 
   end
 
   class EndPoint
-    attr_accessor :x_pos, :y_pos, :weight
+    attr_accessor :row, :col, :weight
 
-    def initialize(x_pos, y_pos, weight)
-      @x_pos = x_pos
+    def initialize(row, col, weight)
+      @row = row
 
-      @y_pos = y_pos
+      @col = col
 
       @weight = weight
     end

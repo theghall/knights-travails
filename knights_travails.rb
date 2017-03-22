@@ -5,8 +5,8 @@
 require './vertex'
 require 'byebug'
 
-def valid_pos(x, y)
-  x >= 0 && x <= 7 && y >= 0 && y <= 7
+def valid_pos(row, col)
+  row >= 0 && row <= 7 && col >= 0 && col <= 7
 end
 
 def build_edges(vertex)
@@ -14,16 +14,16 @@ def build_edges(vertex)
 
   y_deltas = [[-2, 2], [-1, 1]]
 
-  x_pos = vertex.x_pos
+  row = vertex.row
 
-  y_pos = vertex.y_pos
+  col = vertex.col
 
-  (0..1).each do |row|
+  (0..1).each do |d_row|
     (0..1).each do |x|
       (0..1).each do |y|
-        new_x = x_pos + x_deltas[row][x]
-        new_y = y_pos + y_deltas[row][y]
-        vertex.end_points << Vertex::EndPoint.new(new_x, new_y, 1) if valid_pos(new_x,new_y)
+        new_row = row + x_deltas[d_row][x]
+        new_col = col + y_deltas[d_row][y]
+        vertex.end_points << Vertex::EndPoint.new(new_row, new_col, 1) if valid_pos(new_row,new_col)
       end
     end
   end
@@ -32,16 +32,19 @@ end
 def build_board_map
   board = Array.new(8) {Array.new(8)}
 
-  (0..7).each do |x|
-    (0..7).each do |y|
-      board[x][y] = Vertex::Vertex.new(x, y)
-      build_edges(board[x][y])
+  (0..7).each do |row|
+    (0..7).each do |col|
+      board[row][col] = Vertex::Vertex.new(row, col)
+      build_edges(board[row][col])
     end
   end
+
   board
 end
 
 def knight_move(start_pos, end_pos, board)
+  puts("Knight path for: #{start_pos} => #{end_pos}")
+
   root = board[start_pos[0]][start_pos[1]]
 
   queue = [].push(root)
@@ -49,24 +52,22 @@ def knight_move(start_pos, end_pos, board)
   until queue.empty?
     vertex = queue.shift
 
-    found = vertex == start_pos
+    found = vertex == end_pos
 
     break if found
 
-    byebug
     vertices = vertex.end_points
 
-    vertices.each do |pos| 
-      queue.push(board[pos[0]][pos[1]])
+    vertices.each do |vtx| 
+      queue.push(board[vtx.row][vtx.col])
     end
 
   end
+
   found
 end
 
 board = build_board_map
-
 p knight_move([0, 0], [1, 2], board)
 p knight_move([0, 0], [0, 4], board)
-p knight_move([0, 0], [7, 7], board)
 
