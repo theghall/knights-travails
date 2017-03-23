@@ -52,6 +52,10 @@ def build_board_map
   board
 end
 
+def dead_end?(vertex, board)
+  vertex.end_points.select { |vtx| board[vtx[0]][vtx[1]].visited }.length == 1
+end
+
 def print_path(root, end_vertex, board)
   path = []
 
@@ -60,7 +64,7 @@ def print_path(root, end_vertex, board)
   until queue.empty?
     vertex = queue.shift
 
-    path.insert(0, vertex.to_a) if path.empty? || vertex.end_points.include?(path[0])
+    path.insert(0,vertex.to_a) if path.empty? || vertex == root || (vertex.end_points.include?(path[0]) && !path.include?(vertex.to_a) && !dead_end?(vertex, board))
 
     break if vertex == root
 
@@ -101,8 +105,6 @@ end
 
 board = build_board_map
 
-p knight_move([0, 0], [0, 0], board)
-
 p knight_move([0, 0], [1, 2], board)
 
 p knight_move([0, 0], [0, 4], board)
@@ -110,3 +112,5 @@ p knight_move([0, 0], [0, 4], board)
 p knight_move([0, 0], [3, 3], board)
 
 p knight_move([0, 0], [7, 7], board)
+
+p knight_move([0, 1], [7, 7], board)
