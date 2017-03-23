@@ -25,8 +25,7 @@ def build_edges(vertex)
 
         new_col = col + y_deltas[d_row][y]
 
-        vertex.end_points << Vertex::EndPoint.new(new_row, new_col, 1) \
-          if valid_pos(new_row, new_col)
+        vertex.end_points << [new_row, new_col] if valid_pos(new_row, new_col)
       end
     end
   end
@@ -61,13 +60,13 @@ def print_path(root, end_vertex, board)
   until queue.empty?
     vertex = queue.shift
 
-    path.insert(0, vertex.to_a) if vertex.visited && !path.include?(vertex.to_a)
+    path.insert(0, vertex.to_a) if path.empty? || (vertex.visited && vertex.end_points.include?(path[0]) && !path.include?(vertex.to_a))
 
     break if vertex == root
 
     vertices = vertex.end_points
 
-    vertices.each { |vtx| queue.push(board[vtx.row][vtx.col]) }
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) }
   end
 
   path
@@ -94,13 +93,15 @@ def knight_move(start_pos, end_pos, board)
 
     vertices = vertex.end_points
 
-    vertices.each { |vtx| queue.push(board[vtx.row][vtx.col]) if !board[vtx.row][vtx.col].visited }
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) if !board[v[0]][v[1]].visited }
   end
 
   print_path(root, vertex, board)
 end
 
 board = build_board_map
+
+p knight_move([0, 0], [0, 0], board)
 
 p knight_move([0, 0], [1, 2], board)
 
