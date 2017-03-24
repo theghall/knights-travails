@@ -5,10 +5,12 @@
 require './vertex'
 require 'byebug'
 
+# Helper for build_edges to ensure knight stays on board
 def valid_pos(row, col)
   row >= 0 && row <= 7 && col >= 0 && col <= 7
 end
 
+# Build all possible Knight moves for a vertex
 def build_edges(vertex)
   x_deltas = [[-1, 1], [-2, 2]]
 
@@ -31,6 +33,7 @@ def build_edges(vertex)
   end
 end
 
+# Mark all edges as undiscovered
 def reset_visited(board)
   (0..7).each do |row|
     (0..7).each do |col|
@@ -39,6 +42,7 @@ def reset_visited(board)
   end
 end
 
+# Use board array as a "pointer" for building edges
 def build_board_map
   board = Array.new(8) { Array.new(8) }
 
@@ -52,31 +56,37 @@ def build_board_map
   board
 end
 
+# To test if mode in middle of path is a dead end.  If it has only one visited
+# end point it has nowhere to go but back where it came from
 def dead_end?(vertex, board)
   vertex.end_points.select { |vtx| board[vtx[0]][vtx[1]].visited }.length == 1
 end
 
-def print_path(root, end_vertex, board)
+# Find path among discovered edges
+def discover_path(root, terminus, board)
   path = []
 
-  queue = [].push(end_vertex)
+  queue = [].push(terminus)
 
   until queue.empty?
     vertex = queue.shift
 
-    path.insert(0,vertex.to_a) if path.empty? || vertex == root || (vertex.end_points.include?(path[0]) && !path.include?(vertex.to_a) && !dead_end?(vertex, board))
+    path.insert(0, vertex.to_a) if path.empty? || vertex.to_a == root.to_a || \
+                               (vertex.end_points.include?(path[0]) && !path.include?(vertex.to_a) \
+                                && !dead_end?(vertex, board))
 
-    break if vertex == root
+    break if vertex.to_a == root.to_a
 
     vertices = vertex.end_points
 
-    vertices.each { |v| queue.push(board[v[0]][v[1]]) if board[v[0]][v[1]].visited }
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) \
+      if board[v[0]][v[1]].visited }
   end
 
   path
-
 end
 
+# discover edges from start_pos to end_pos
 def knight_move(start_pos, end_pos, board)
   reset_visited(board)
 
@@ -97,10 +107,11 @@ def knight_move(start_pos, end_pos, board)
 
     vertices = vertex.end_points
 
-    vertices.each { |v| queue.push(board[v[0]][v[1]]) if !board[v[0]][v[1]].visited }
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) \
+                        unless board[v[0]][v[1]].visited }
   end
 
-  print_path(root, vertex, board)
+  discover_path(root, vertex, board)
 end
 
 board = build_board_map

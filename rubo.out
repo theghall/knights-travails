@@ -1,0 +1,55 @@
+Inspecting 1 file
+C
+
+Offenses:
+
+knights_travails.rb:14:1: C: Assignment Branch Condition size for build_edges is too high. [15.26/15]
+def build_edges(vertex)
+^^^
+knights_travails.rb:14:1: C: Method has too many lines. [13/10]
+def build_edges(vertex) ...
+^^^^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:66:1: C: Assignment Branch Condition size for discover_path is too high. [33.23/15]
+def discover_path(root, terminus, board)
+^^^
+knights_travails.rb:66:1: C: Cyclomatic complexity for discover_path is too high. [9/6]
+def discover_path(root, terminus, board)
+^^^
+knights_travails.rb:66:1: C: Method has too many lines. [13/10]
+def discover_path(root, terminus, board) ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:66:1: C: Perceived complexity for discover_path is too high. [9/7]
+def discover_path(root, terminus, board)
+^^^
+knights_travails.rb:75:32: C: Align the operands of a condition in an if statement spanning multiple lines.
+                               (vertex.end_points.include?(path[0]) && !path.include?(vertex.to_a) \ ...
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:75:81: C: Line is too long. [100/80]
+                               (vertex.end_points.include?(path[0]) && !path.include?(vertex.to_a) \
+                                                                                ^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:82:19: C: Avoid using {...} for multi-line blocks.
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) \
+                  ^
+knights_travails.rb:82:25: C: Block body expression is on the same line as the block start.
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) \ ...
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:83:36: C: Expression at 83, 36 should be on its own line.
+      if board[v[0]][v[1]].visited }
+                                   ^
+knights_travails.rb:89:1: C: Assignment Branch Condition size for knight_move is too high. [24.92/15]
+def knight_move(start_pos, end_pos, board)
+^^^
+knights_travails.rb:89:1: C: Method has too many lines. [14/10]
+def knight_move(start_pos, end_pos, board) ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:109:19: C: Avoid using {...} for multi-line blocks.
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) \
+                  ^
+knights_travails.rb:109:25: C: Block body expression is on the same line as the block start.
+    vertices.each { |v| queue.push(board[v[0]][v[1]]) \ ...
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+knights_travails.rb:110:58: C: Expression at 110, 58 should be on its own line.
+                        unless board[v[0]][v[1]].visited }
+                                                         ^
+
+1 file inspected, 16 offenses detected

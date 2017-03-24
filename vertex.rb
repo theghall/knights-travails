@@ -22,22 +22,4 @@ module Vertex
       ary << self.row << self.col
     end
   end
-
-  # An end-point for an edge, with weight of edge
-  class EndPoint
-    attr_accessor :row, :col, :weight
-
-    def initialize(row, col, weight)
-      @row = row
-
-      @col = col
-
-      @weight = weight
-    end
-
-    def to_a
-      ary = []
-      ary << self.row << self.col
-    end
-  end
 end
